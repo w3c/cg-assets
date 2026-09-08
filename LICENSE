@@ -1,0 +1,11 @@
+HTML, CSS and JavaScript files in this repository are covered by the W3C Software
+and Document License described in:
+
+    https://www.w3.org/copyright/software-license/
+
+W3C trademarks and logos are governed by the trademark license described in
+
+    https://www.w3.org/policies/trademark/
+
+This repository contains no logo or image assets: the stylesheets reference the
+W3C TR logos by absolute URL under https://www.w3.org/StyleSheets/TR/2021/logos/.
