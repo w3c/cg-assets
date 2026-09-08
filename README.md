@@ -13,10 +13,11 @@ and [`beta-2026/cg-redesign-overview.md`](https://github.com/w3c/cg-program/blob
 
 | File | What it is |
 | ---- | ---------- |
-| `base.css` | The W3C TR base style sheet, with the CG design bits. |
-| `cg-spec.css` | The CG component layer: the header box, status notices, progress bar, usage-guidance tables, buttons and icons. |
-| `dark.css` | The W3C TR dark overlay. |
-| `fixup.js` | The W3C TR runtime: ToC sidebar, theme toggle, wide-table wrapping. |
+| `css/base.css` | The W3C TR base style sheet, with the CG design bits. |
+| `css/cg-spec.css` | The CG component layer: the header box, status notices, progress bar, usage-guidance tables, buttons and icons. |
+| `css/dark.css` | The W3C TR dark overlay. |
+| `js/fixup.js` | The W3C TR runtime: ToC sidebar, theme toggle, wide-table wrapping. |
+| `mockups/` | Sample specifications using these assets, deployed through GitHub Pages. See [`mockups/README.md`](mockups/README.md). |
 
 ## How a specification uses these
 
@@ -25,11 +26,11 @@ and [`beta-2026/cg-redesign-overview.md`](https://github.com/w3c/cg-program/blob
 of order gets the wrong colours.
 
 ```html
-<link rel="stylesheet" href="BASE/base.css">
-<link rel="stylesheet" href="BASE/cg-spec.css">
+<link rel="stylesheet" href="BASE/css/base.css">
+<link rel="stylesheet" href="BASE/css/cg-spec.css">
 <link rel="stylesheet" class="dark-mode" media="(prefers-color-scheme: dark)"
-      href="BASE/dark.css">
-<script src="BASE/fixup.js"></script>
+      href="BASE/css/dark.css">
+<script src="BASE/js/fixup.js"></script>
 ```
 
 Notes on that markup:
