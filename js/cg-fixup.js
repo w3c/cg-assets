@@ -1,9 +1,13 @@
 /******************************************************************************
- *                 JS Extension for the W3C Spec Style Sheet                  *
+ *       JS extension for the W3C Community Group specification styles        *
  *                                                                            *
  * This code handles:                                                         *
- * - some fixup to improve the table of contents                              *
- * - the obsolete warning on outdated specs                                   *
+ * - the table of contents: sidebar toggle, jump link, auto-collapse          *
+ * - amendment / correction / addition diff toggling                          *
+ * - wrapping wide tables so that they can scroll                             *
+ *                                                                            *
+ * The dark mode toggle is in dark.js. Load this file before it, so that the  *
+ * theme toggle ends up after the table-of-contents controls.                 *
  ******************************************************************************/
 (function() {
   "use strict";
@@ -19,7 +23,6 @@
   const tocJumpId = 'toc-jump';
   const tocCollapseId = 'toc-collapse';
   const tocExpandId = 'toc-expand';
-  const tocThemeToggle = 'toc-theme-toggle';
 
   var ESCAPEKEY = 27;
 
@@ -272,68 +275,4 @@
       wrapper.appendChild(table);
     }
   }
-
-  /* Dark mode toggle */
-  const darkCss = document.querySelector(
-    'link[rel~="stylesheet"].dark-mode, link[rel~="stylesheet"][href*="dark.css"]');
-  if (darkCss) {
-    let colorScheme = "auto";
-    /* Take over the media query from the document; see setDarkEnabled(). */
-    const setDarkEnabled = (on) => { darkCss.media = on ? "all" : "not all"; };
-    function updateTheme() {
-      colorScheme = localStorage.getItem("tr-theme");
-      if (colorScheme !== "light" && colorScheme !== "dark") {
-        colorScheme = "auto";
-      }
-      const browserDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const theme = colorScheme === "auto" ? (browserDarkMode ? "dark" : "light") : colorScheme;
-
-      setDarkEnabled(theme === "dark");
-      document.body.classList.toggle("darkmode", theme === "dark")
-    }
-
-    updateTheme();
-    const render = document.createElement("div");
-    function createOption(option) {
-      const checked = option === colorScheme;
-      return `
-        <label>
-          <input name="color-scheme" type="radio" value="${option}" ${checked ? "checked": ""}>
-          <span>${option}</span>
-        </label>
-      `.trim();
-    }
-    if (!document.getElementById(tocThemeToggle)) {
-      render.innerHTML = `
-        <a id="toc-theme-toggle" role="radiogroup" aria-label="Select a color scheme">
-          <span aria-hidden="true"><img src="https://www.w3.org/StyleSheets/TR/2021/logos/dark.svg" title="theme toggle icon" /></span>
-          <span>
-          ${["light", "dark", "auto"].map(createOption).join("")}
-          </span>
-        </a>
-      `;
-    }
-    const changeListener = (event) => {
-      const { value } = event.target;
-      const browserDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const theme = value === "auto" ? (browserDarkMode ? "dark" : "light") : value;
-
-      setDarkEnabled(theme === "dark");
-      document.body.classList.toggle("darkmode", theme === "dark")
-      localStorage.setItem("tr-theme", value);
-    };
-    render.querySelectorAll("input[type='radio']").forEach((input) => {
-      input.addEventListener("change", changeListener);
-    });
-
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-      updateTheme();
-    });
-
-    var tocNav = document.querySelector('#toc-nav');
-    if (!document.getElementById(tocThemeToggle)) {
-      tocNav.appendChild(...render.children);
-    }
-  }
-
 })();

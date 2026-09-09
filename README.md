@@ -16,7 +16,8 @@ and [`beta-2026/cg-redesign-overview.md`](https://github.com/w3c/cg-program/blob
 | `css/base.css` | The W3C TR base style sheet, with the CG design bits. |
 | `css/cg-spec.css` | The CG component layer: the header box, status notices, progress bar, usage-guidance tables, buttons and icons. |
 | `css/dark.css` | The W3C TR dark overlay. |
-| `js/fixup.js` | The W3C TR runtime: ToC sidebar, theme toggle, wide-table wrapping. |
+| `js/cg-fixup.js` | Table of contents (sidebar toggle, jump link), amendment diff toggling, wide-table wrapping. |
+| `js/dark.js` | The light / dark / auto theme toggle, and the code that drives the dark style sheet. |
 | `mockups/` | Sample specifications using these assets, deployed through GitHub Pages. See [`mockups/README.md`](mockups/README.md). |
 
 ## How a specification uses these
@@ -30,17 +31,19 @@ of order gets the wrong colours.
 <link rel="stylesheet" href="BASE/css/cg-spec.css">
 <link rel="stylesheet" class="dark-mode" media="(prefers-color-scheme: dark)"
       href="BASE/css/dark.css">
-<script src="BASE/js/fixup.js"></script>
+<script src="BASE/js/cg-fixup.js"></script>
+<script src="BASE/js/dark.js"></script>
 ```
 
 Notes on that markup:
 
 - The dark sheet **must** carry `media="(prefers-color-scheme: dark)"`, so that a
-  reader without JavaScript gets a palette that matches their system. `fixup.js`
+  reader without JavaScript gets a palette that matches their system. `dark.js`
   takes over the media list once it runs.
-- `class="dark-mode"` is how `fixup.js` finds the sheet to drive from the theme
+- `class="dark-mode"` is how `dark.js` finds the sheet to drive from the theme
   toggle. A URL ending in `dark.css` is also recognised, but the class is
   explicit and survives renaming.
+- Load `cg-fixup.js` before `dark.js`.
 
 `BASE` is not fixed yet. CG specifications are to be published on
 `incubation.w3.org` (see the redesign overview).
