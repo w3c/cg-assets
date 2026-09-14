@@ -180,12 +180,14 @@ body.toc-sidebar {
 .box--head:first-of-type {
   margin-top: 0;
 }
-.box--head a {
+/* Restricted to real links -- the metadata script leaves an <a> without an href
+   when it has no URL to offer, and that must not read as interactive. */
+.box--head a:where([href]) {
   color: var(--box-text--head);
   text-decoration-color: #76d1fe;
 }
-/* .box--head a:visited,  */
-.box--head a:hover, .box--head a:focus, .box--head a:active {
+/* .box--head a:where([href]):visited,  */
+.box--head a:where([href]):hover, .box--head a:where([href]):focus, .box--head a:where([href]):active {
   color: #bfe6ff;
 }
 .box--head hr {
@@ -256,6 +258,18 @@ body.toc-sidebar {
     color: var(--a-normal-text);
     text-decoration-color: var(--text);
   }
+}
+
+/* Status metadata that js/cg-metadata.js could not supply. Nothing in the
+   document claims to be current status, so a region it cannot build says so
+   rather than sitting empty, and a value the collectors do not have is marked
+   in place rather than dropped. Both inherit their colour: they appear on the
+   head box, inside the information boxes, and on the page background. Italic
+   rather than a lighter colour, so the contrast is not reduced. */
+.cg-metadata-unavailable,
+.cg-metadata-missing {
+  color: inherit;
+  font-style: italic;
 }
 
 /* Responsive (scrolling) table styles */
