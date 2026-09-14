@@ -188,18 +188,21 @@
     ];
   }
 
-  /** The four-step bar. One integer: everything before it is complete. */
+  /**
+   * The four-step bar. `progress` is the 0-based index of the last step the
+   * work has *completed*, so every step up to and including it is ticked and
+   * the one after it, if there is one, is where the work stands now.
+   */
   function buildProgress(data) {
-    const current = data.progress;
-    if (!Number.isInteger(current) || current < 1 || current > PROGRESS_STEPS.length) {
-      return unavailable("The progress towards standardization is not recorded for this specification.");
+    const lastComplete = data.progress;
+    if (!Number.isInteger(lastComplete) || lastComplete < 0 || lastComplete >= PROGRESS_STEPS.length) {
+      return unavailable("The progress towards standardization is not available for this specification.");
     }
 
     const list = el("ol", { class: "clean-list progress-list", role: "list" });
     PROGRESS_STEPS.forEach((label, index) => {
-      const position = index + 1;
-      const isComplete = position < current;
-      const isCurrent = position === current;
+      const isComplete = index <= lastComplete;
+      const isCurrent = index === lastComplete + 1;
       const note = isComplete
         ? "(This step is completed.)"
         : isCurrent
