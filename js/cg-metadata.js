@@ -13,6 +13,7 @@
  *   <meta name="cg-spec-type" content="living">   (or "snapshot")
  *   <meta name="cg-spec-shortname" content="scheduling-apis">
  *
+ *   <li  data-cg-region="last-edited"></li>
  *   <div data-cg-region="progress"></div>
  *   <div data-cg-region="browser-support"></div>
  *   <div data-cg-region="usage-guidance"></div>
@@ -173,6 +174,11 @@
   }
 
   /* ----------------------------------------------------------- regions --- */
+
+  /** "It was last edited on <date>." */
+  function buildLastEdited(data) {
+    return ["It was last edited on ", time(data.lastEdited && data.lastEdited.date), "."];
+  }
 
   /** "This living specification: <url> (last edited: <date>)" */
   function buildLivingSpec(data, specType) {
@@ -397,6 +403,7 @@
   }
 
   const BUILDERS = {
+    "last-edited": buildLastEdited,
     "living-spec": buildLivingSpec,
     "progress": buildProgress,
     "browser-support": buildBrowserSupport,

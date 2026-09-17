@@ -111,6 +111,7 @@ leaves an empty container where each block goes:
 
 | `data-cg-region` | what the script puts there | living | snapshot |
 | --- | --- | --- | --- |
+| `last-edited` | "It was last edited on `<date>`." | ✓ | — |
 | `progress` | the four-step progress bar | ✓ | — |
 | `browser-support` | the browser-support summary in the header box | ✓ | — |
 | `usage-guidance` | the "collected on" line and the four usage-guidance tables | ✓ | — |
