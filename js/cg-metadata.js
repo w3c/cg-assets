@@ -133,15 +133,13 @@
     return svg;
   }
 
-  /* "en-AU" is what ReSpec uses for English documents: it renders
-     "30 July 2026" without the comma the W3C style forbids. */
-  const docLang = document.documentElement.lang || "en";
-  const dateLang = docLang === "en" || docLang.startsWith("en-") ? "en-AU" : docLang;
-  const dateFormat = new Intl.DateTimeFormat(dateLang, {
+  /* Dates are written W3C style -- "30 July 2026", day first, two digits, no
+     comma -- whatever the document's language. */
+  const dateFormat = new Intl.DateTimeFormat("en-GB", {
     timeZone: "UTC",
     year: "numeric",
     month: "long",
-    day: dateLang === "en-AU" ? "2-digit" : "numeric",
+    day: "2-digit",
   });
 
   /** A <time>, or the "Not available" marker when there is no date. */
