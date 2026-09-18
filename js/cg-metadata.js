@@ -81,6 +81,10 @@
 
   const UNAVAILABLE = "Not available";
 
+  /* The advice sentence from the projection names the compatibility data in
+     prose; where there is a URL for it, that phrase becomes the link. */
+  const COMPAT_DATA_PHRASE = "detailed browser compatibility data";
+
   /* Path data for the inline icons, lifted from the agreed design. */
   const ICONS = {
     chrome:
@@ -287,6 +291,20 @@
     );
   }
 
+  function experimentation(data) {
+    const sentence = data.experimentationStatus;
+    if (!sentence) return missing();
+
+    const at = data.compatDataUrl ? sentence.indexOf(COMPAT_DATA_PHRASE) : -1;
+    if (at === -1) return sentence;
+
+    return [
+      sentence.slice(0, at),
+      el("a", { href: data.compatDataUrl }, COMPAT_DATA_PHRASE),
+      sentence.slice(at + COMPAT_DATA_PHRASE.length),
+    ];
+  }
+
   function labelledRow(label, ...cells) {
     return el("tr", {}, el("th", { scope: "row" }, label), cells);
   }
@@ -376,11 +394,7 @@
         [
           labelledRow(
             "Experimentation status",
-            el("td", { colSpan: 3 }, data.experimentationStatus
-              ? [data.experimentationStatus, data.compatDataUrl
-                  ? [" (see ", el("a", { href: data.compatDataUrl }, "detailed browser compatibility data"), ")."]
-                  : "."]
-              : missing())
+            el("td", { colSpan: 3 }, experimentation(data))
           ),
           adopterHeader,
           adopterValues,
@@ -426,6 +440,21 @@
     /* A builder may return one node, a fragment, or a list of nodes and
        strings; append() does not spread an array on its own. */
     container.append(...[].concat(content));
+  }
+
+  /*
+   * Three of the four regions sit above the usage-guidance section, so filling
+   * them makes the page taller and everything below slides down. A fragment the
+   * browser had already scrolled to -- #usage-guidance from the header box or
+   * the table of contents, say -- is no longer where the reader was put. Land
+   * them on it again, instantly: the correction is not a journey.
+   */
+  function restoreFragment() {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (!id) return;
+
+    const target = document.getElementById(id);
+    if (target) target.scrollIntoView({ behavior: "instant", block: "start" });
   }
 
   function regions() {
@@ -511,10 +540,12 @@
         fill(container, build(data, specType));
       }
       document.documentElement.dataset.cgMetadata = "fresh";
+      restoreFragment();
     })
     .catch((error) => {
       document.documentElement.dataset.cgMetadata = "stale";
       sayEverywhere("Status data could not be loaded.", allowed);
+      restoreFragment();
       console.warn(
         "[cg-metadata] Could not load the status metadata from " + url + " (" + error.message + ")."
       );
