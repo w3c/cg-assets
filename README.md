@@ -19,8 +19,7 @@ and [`beta-2026/cg-redesign-overview.md`](https://github.com/w3c/cg-program/blob
 | `js/cg-fixup.js` | Table of contents (sidebar toggle, jump link), amendment diff toggling, wide-table wrapping. |
 | `js/dark.js` | The light / dark / auto theme toggle, and the code that drives the dark style sheet. |
 | `js/cg-metadata.js` | Fills the status metadata — browser support, the progress bar, the usage-guidance tables — from [cg-spec-metadata](https://github.com/w3c/cg-spec-metadata). |
-| `mockups/` | Sample specifications using these assets, deployed through GitHub Pages. See [`mockups/README.md`](mockups/README.md). |
-| `demo/` | The same samples, wired to the live metadata endpoint. See [`demo/README.md`](demo/README.md). |
+| `demo/` | Sample specifications using these assets, wired to the live metadata endpoint and deployed through GitHub Pages. See [`demo/README.md`](demo/README.md). |
 
 ## How a specification uses these
 
@@ -110,7 +109,7 @@ that claims to be current status is ever in the document, so it can never be sta
 leaves an empty container where each block goes:
 
 | `data-cg-region` | what the script puts there | living | snapshot |
-| --- | --- | --- | --- |
+| --- | --- | :---: | :---: |
 | `last-edited` | "It was last edited on `<date>`." | ✓ | — |
 | `progress` | the four-step progress bar | ✓ | — |
 | `browser-support` | the browser-support summary in the header box | ✓ | — |
