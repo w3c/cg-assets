@@ -300,7 +300,7 @@
     const contributions = data.contributions || {};
     const fragment = document.createDocumentFragment();
 
-    fragment.append(el("p", {}, "Status data collected on ", time(data.collectedAt), "."));
+    fragment.append(el("p", {}, "This data last refreshed on ", time(data.collectedAt), "."));
 
     fragment.append(
       table(
