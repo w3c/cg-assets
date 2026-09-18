@@ -114,7 +114,7 @@ leaves an empty container where each block goes:
 | `last-edited` | "It was last edited on `<date>`." | ✓ | — |
 | `progress` | the four-step progress bar | ✓ | — |
 | `browser-support` | the browser-support summary in the header box | ✓ | — |
-| `usage-guidance` | the "collected on" line and the four usage-guidance tables | ✓ | — |
+| `usage-guidance` | the "This data last refreshed on" line and the four usage-guidance tables | ✓ | — |
 | `living-spec` | "This living specification: `<url>` (last edited: `<date>`)" | ✓ | ✓ |
 
 Put a `<noscript>` inside a container for the no-JavaScript case — the script leaves it alone.
