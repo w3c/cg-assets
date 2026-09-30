@@ -454,11 +454,28 @@ dl.grid {
 
 
 
+/* ---- BETA -------------------------------------------------------------- *
+ * Temporary notice
+ * ------------------------------------------------------------------------ */
+#beta-feedback-notice {
+  background-color: #ec7070;
+  color: black;
+  border-radius: var(--box-radius);
+  font-size: 90%;
+  margin: 0 0 1rem;
+  padding: 0.6em 1em;
+}
+#beta-feedback-notice a {
+  color: inherit;
+}
+
 /* PRINT STYLES */
 @media print {
   html {
     scroll-padding-top: auto;
   }
+  /* BETA: see above. */
+  #beta-feedback-notice,
   .progress-list {
     display: none !important;
   }
