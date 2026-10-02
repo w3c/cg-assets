@@ -4,7 +4,7 @@ on:
       - main
 
 jobs:
-  build_css:
+  deploy_assets:
     runs-on: ubuntu-latest
     env:
       destination: assets/specs-2026/
@@ -12,19 +12,7 @@ jobs:
       - name: Checkout source Git branch
         uses: actions/checkout@v5
 
-      - name: Use Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '24'
-
-      - name: Install npm modules
-        run: npm install
-
-      - name: compile assets
-        run: npm run build
-
       - name: Upload to incubation.w3.org bucket
-        if: success()
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
