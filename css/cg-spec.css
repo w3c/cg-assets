@@ -2,7 +2,7 @@
  *          Component styles for W3C Community Group specifications
  *
  * Original styles by Studio 24, from
- * w3c/cg-program spec-mockups/v12/assets/cg-spec.css.
+ * w3c/cg-program spec-mockups/v13/assets/cg-spec.css.
  *
  * This sheet only *consumes* custom properties; they are declared in base.css
  * (light) and dark.css (dark). Load order matters:
@@ -47,6 +47,7 @@ a[href] {
   vertical-align: middle;
   background-color: var(--link--button--bg);
   color: var(--link--button--text);
+  border: solid 2px var(--link--button--border);
   text-decoration: none;
   padding: 10px;
   border-radius: 5px;
@@ -56,7 +57,8 @@ a[href] {
   &:active,
   &:hover {
     background-color: var(--link--button--bg--hover);
-    color: var(--link--button--text);
+    color: var(--link--button--text--hover);
+    border-color: var(--link--button--border--hover);
   }
 }
 /* display many buttons */
@@ -92,20 +94,18 @@ body.toc-sidebar {
     #toc  {
       background-color: var(--tocsidebar-bg);
     }
-    #toc h2 {
-    color: #bfe6ff;
-    }
     .toc a {
-        color: white;
-        text-decoration-color: #76d1fe;
+        color: var(--tocsidebar-link-text);
+        text-decoration-color: var(--tocsidebar-link-underline);
         padding: 0.25em;
     }
     /* a:visited, a:hover, a:focus, a:active */
     .toc a:visited {
-        color: #bfe6ff;
+        color: var(--tocsidebar-link-visited-text);
+        text-decoration-color: var(--tocsidebar-link-visited-underline);
     }
     .toc a:hover, .toc a:active {
-        background-color: #161616;
+        background-color: var(--tocsidebar-link-hover-bg);
     }
 }
 
@@ -183,18 +183,23 @@ body.toc-sidebar {
 /* Restricted to real links -- the metadata script leaves an <a> without an href
    when it has no URL to offer, and that must not read as interactive. */
 .box--head a:where([href]) {
-  color: var(--box-text--head);
-  text-decoration-color: #76d1fe;
+  color: var(--box-link-text--head);
+  text-decoration-color: var(--box-link-underline--head);
 }
 /* .box--head a:where([href]):visited,  */
 .box--head a:where([href]):hover, .box--head a:where([href]):focus, .box--head a:where([href]):active {
-  color: #bfe6ff;
+  color: var(--box-link-text--head);
+}
+/* Outranks both the head box links above and base.css's a[href] */
+.box--head .link--button {
+  color: var(--link--button--text);
+  &:active,
+  &:hover {
+    color: var(--link--button--text--hover);
+  }
 }
 .box--head hr {
   color: var(--box-border--head);
-}
-.box--head h1, .box--head h2, .box--head h3 {
-  color: var(--box-text--head);
 }
 .box--head h1 {
   font-size: 210%;
@@ -211,9 +216,6 @@ body.toc-sidebar {
   background-color: var(--box-table-bg--head);
   color: var(--box-table-text--head);
   border: solid 2px var(--box-table-border--head);
-  caption {
-    color: var(--box-text--head);
-  }
   th, tr, td {
     border: 2px solid var(--box-table-border--head); 
   }
@@ -231,16 +233,14 @@ body.toc-sidebar {
 .box--warning {
   background-color: var(--box-bg--warning);
 }
-.box--warning *,
-.box--warning a
- {
-  color: white;
-}  
 
 /* Neutral information notice */
 .box--information {
   background-color: var(--box-bg--info);
-  color: white;
+  color: var(--text);
+  a {
+    color: inherit;
+  }
   h2 a {
     text-decoration-thickness: 1px;
   }

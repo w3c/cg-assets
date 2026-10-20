@@ -13,7 +13,7 @@ img { background: white; }
 
 :root {
 	--text: #ddd;
-	--bg: black;
+	--bg: #222;
 
 	/* Absolute URLs due to https://bugs.webkit.org/show_bug.cgi?id=230243 */
 	--unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2021/logos/UD-watermark-dark-unofficial);
@@ -31,9 +31,13 @@ img { background: white; }
 	--tocnav-active-bg: var(--tocnav-normal-bg);
 
 	--tocsidebar-text: var(--text);
-	--tocsidebar-bg: #04303e;        /* CG: teal ToC sidebar (W3C TR: #080808) */
+	--tocsidebar-bg: #002a56;        /* CG: blue ToC sidebar (W3C TR: #080808) */
 	--tocsidebar-shadow: rgba(255,255,255,.1);
-	--tocsidebar-heading-text: var(--heading-text);
+	--tocsidebar-heading-text: #cbe0fb;
+	--tocsidebar-link-text: var(--text);
+	--tocsidebar-link-underline: var(--text);
+	--tocsidebar-link-visited-text: #cbe0fb;
+	--tocsidebar-link-visited-underline: #cbe0fb;
 
 	--toclink-text: var(--text);
 	--toclink-underline: #6af;
@@ -123,22 +127,26 @@ img { background: white; }
 	--box-table-bg: black;
 	--box-table-text: var(--text);
 
-	/* Head dark blue box */
+	/* Head blue box */
 	--box-bg--head: var(--tocsidebar-bg);
 	--box-border--head: #023e53;
-	--box-text--head: var(--text);
-	--box-table-th-bg--head: #0b2128;
-	--box-table-border--head: black;
+	--box-link-text--head: var(--text);
+	--box-link-underline--head: var(--text);
+	--box-table-bg--head: #002a56;
+	--box-table-th-bg--head: #111;
+	--box-table-border--head: var(--text);
 	--box-table-text--head: var(--text);
 
 	/* Warning (red) */
 	--box-bg--warning: #771009;
 
 	/* link--button */
-	--link--button--text: var(--text);
-
-	/* Usage guidance icons */
-	--icon--head: var(--text);
+	--link--button--bg: #005a9c;
+	--link--button--text: white;
+	--link--button--border: #005a9c;
+	--link--button--bg--hover: black;
+	--link--button--text--hover: white;
+	--link--button--border--hover: black;
 }
 
 /******************************************************************************

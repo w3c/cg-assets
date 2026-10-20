@@ -79,8 +79,8 @@
 
 /* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
 :root {
-	--text: black;
-	--bg: #fffff0;
+	--text: #111;
+	--bg: white;
 
 	/* Absolute URLs due to https://bugs.webkit.org/show_bug.cgi?id=230243 */
 	--unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2021/logos/UD-watermark-light-unofficial.svg);
@@ -98,9 +98,14 @@
 	--tocnav-active-bg: var(--tocnav-normal-bg);
 
 	--tocsidebar-text: var(--text);
-	--tocsidebar-bg: #035e7c;
+	--tocsidebar-bg: #cbe0fb;
 	--tocsidebar-shadow: rgba(0,0,0,.1);
-	--tocsidebar-heading-text: hsla(203,20%,40%,.7);
+	--tocsidebar-heading-text: var(--text);
+	--tocsidebar-link-text: #005a9c;
+	--tocsidebar-link-underline: #005a9c;
+	--tocsidebar-link-visited-text: #002a56;
+	--tocsidebar-link-visited-underline: #002a56;
+	--tocsidebar-link-hover-bg: var(--bg);
 
 	--toclink-text: var(--text);
 	--toclink-underline: #3980b5;
@@ -189,32 +194,37 @@
 	--box-table-border: var(--text);
 	--box-table-text: var(--text);
 
-	/* Head dark blue box */
+	/* Head blue box */
 	--box-bg--head: var(--tocsidebar-bg);
 	--box-border--head: #023e53;
-	--box-text--head: var(--bg);
-	--box-table-bg--head: var(--box-border--head);
-	--box-table-th-bg--head: #0c2f3b;
-	--box-table-border--head: var(--tocsidebar-bg);
+	--box-text--head: var(--text);
+	--box-link-text--head: #005a9c;
+	--box-link-underline--head: #005a9c;
+	--box-table-bg--head: #f8f8fb;
+	--box-table-th-bg--head: #cac9c9;
+	--box-table-border--head: #545454;
 	--box-table-text--head: inherit;
 
-	/* Information (grey) */
-	--box-bg--info: #222;
+	/* Information (neutral) */
+	--box-bg--info: var(--bg);
 
 	/* Warning (red) */
-	--box-bg--warning: maroon;
+	--box-bg--warning: #fea78d;
 
 	/* link--button */
-	--link--button--bg: #222;
-	--link--button--bg--hover: black;
-	--link--button--text: var(--bg);
+	--link--button--bg: var(--bg);
+	--link--button--text: #005a9c;
+	--link--button--border: #005a9c;
+	--link--button--bg--hover: var(--bg);
+	--link--button--text--hover: #002a56;
+	--link--button--border--hover: #002a56;
 
 	/* Progress indicator */
-	--progress-lines: white;
-	--progress-complete: green;
+	--progress-lines: var(--text);
+	--progress-complete: #046704;
 
 	/* Usage guidance icons */
-	--icon--head: var(--bg);
+	--icon--head: var(--text);
 }
 
 /******************************************************************************/
