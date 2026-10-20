@@ -5,7 +5,7 @@
  * - the table of contents: sidebar toggle, jump link, auto-collapse          *
  * - amendment / correction / addition diff toggling                          *
  * - wrapping wide tables so that they can scroll                             *
- * - the "W3C Community Group incubation" warning (sticky, collapsible)       *
+ * - the "W3C Community Group incubation" warning (sticky, dismissible)       *
  *                                                                            *
  * The dark mode toggle is in dark.js. Load this file before it, so that the  *
  * theme toggle ends up after the table-of-contents controls.                 *
@@ -290,13 +290,12 @@
     }
   }
 
-  /* Incubation warning
-     Same structure and behaviour as the TR outdated warning (fixup.js) */
+  /* Incubation warning shown collapsed at the bottom of the page. */
   if (!document.getElementById('cg-incubation-warning')) {
     var incubationWarning = document.createElement('p');
     incubationWarning.id = 'cg-incubation-warning';
     incubationWarning.lang = 'en';
-    incubationWarning.className = 'outdated-warning cg-incubation-warning';
+    incubationWarning.className = 'outdated-warning outdated-collapsed cg-incubation-warning';
     if (document.respec) incubationWarning.classList.add('removeOnSave');
 
     var incubationText = document.createElement('span');
@@ -307,38 +306,13 @@
 
     var incubationButton = document.createElement('button');
     incubationButton.type = 'button';
-    incubationButton.innerText = '▾ collapse';
-    incubationButton.setAttribute('aria-label', 'Collapse warning');
+    incubationButton.innerText = '✕';
+    incubationButton.setAttribute('aria-label', 'Hide warning');
+    incubationButton.addEventListener('click', function() {
+      incubationWarning.remove();
+    }, false);
     incubationWarning.appendChild(incubationButton);
 
-    var isIncubationOpen = true;
-    incubationButton.addEventListener('click', function() {
-      isIncubationOpen = !isIncubationOpen;
-      incubationWarning.classList.toggle('outdated-collapsed');
-      incubationButton.innerText = isIncubationOpen ? '▾ collapse' : '▴ expand';
-      incubationButton.setAttribute('aria-label', isIncubationOpen ? 'Collapse warning' : 'Expand warning');
-    }, false);
-
     document.body.prepend(incubationWarning);
-    incubationButton.focus();
-
-    window.addEventListener('keydown', function(event) {
-      if (event.keyCode === ESCAPEKEY && isIncubationOpen) {
-        incubationButton.click();
-      }
-    }, false);
-
-    window.addEventListener('click', function(event) {
-      if (!incubationWarning.contains(event.target) && isIncubationOpen) {
-        incubationButton.click();
-      }
-    }, false);
-
-    document.addEventListener('focus', function(event) {
-      if (isIncubationOpen && !incubationWarning.contains(event.target)) {
-        event.stopPropagation();
-        document.body.appendChild(incubationWarning);
-      }
-    }, true);
   }
 })();
