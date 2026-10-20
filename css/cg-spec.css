@@ -458,8 +458,8 @@ dl.grid {
  * Temporary notice
  * ------------------------------------------------------------------------ */
 #beta-feedback-notice {
-  background-color: #ec7070;
-  color: black;
+  background-color: var(--warning-bg);
+  color: var(--warning-text);
   border-radius: var(--box-radius);
   font-size: 90%;
   margin: 0 0 1rem;

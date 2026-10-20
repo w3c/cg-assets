@@ -19,7 +19,7 @@
     var betaNotice = document.createElement('p');
     betaNotice.id = 'beta-feedback-notice';
     betaNotice.innerHTML = 'We are beta testing new styles for CG ' +
-      'Specifications. We welcome your <a href="https://github.com/w3c/' +
+      'specifications. We welcome your <a href="https://github.com/w3c/' +
       'cg-program/tree/main/beta-2026">feedback</a>.';
     document.body.insertBefore(betaNotice, document.body.firstChild);
   }
