@@ -5,6 +5,7 @@
  * - the table of contents: sidebar toggle, jump link, auto-collapse          *
  * - amendment / correction / addition diff toggling                          *
  * - wrapping wide tables so that they can scroll                             *
+ * - the "W3C Community Group incubation" warning (sticky, collapsible)       *
  *                                                                            *
  * The dark mode toggle is in dark.js. Load this file before it, so that the  *
  * theme toggle ends up after the table-of-contents controls.                 *
@@ -18,7 +19,7 @@
   if (!document.getElementById('beta-feedback-notice')) {
     var betaNotice = document.createElement('p');
     betaNotice.id = 'beta-feedback-notice';
-    betaNotice.innerHTML = 'We are beta testing new styles for CG ' +
+    betaNotice.innerHTML = 'W3C is beta testing new styles for CG ' +
       'specifications. We welcome your <a href="https://github.com/w3c/' +
       'cg-program/tree/main/beta-2026">feedback</a>.';
     document.body.insertBefore(betaNotice, document.body.firstChild);
@@ -287,5 +288,57 @@
       table.parentNode.insertBefore(wrapper, table);
       wrapper.appendChild(table);
     }
+  }
+
+  /* Incubation warning
+     Same structure and behaviour as the TR outdated warning (fixup.js) */
+  if (!document.getElementById('cg-incubation-warning')) {
+    var incubationWarning = document.createElement('p');
+    incubationWarning.id = 'cg-incubation-warning';
+    incubationWarning.lang = 'en';
+    incubationWarning.className = 'outdated-warning cg-incubation-warning';
+    if (document.respec) incubationWarning.classList.add('removeOnSave');
+
+    var incubationText = document.createElement('span');
+    incubationText.innerHTML = 'This is a <a href="https://github.com/w3c/' +
+      'cg-program/blob/main/beta-2026/w3c-programs.md#introduction">W3C ' +
+      'Community Group incubation</a>.';
+    incubationWarning.appendChild(incubationText);
+
+    var incubationButton = document.createElement('button');
+    incubationButton.type = 'button';
+    incubationButton.innerText = '▾ collapse';
+    incubationButton.setAttribute('aria-label', 'Collapse warning');
+    incubationWarning.appendChild(incubationButton);
+
+    var isIncubationOpen = true;
+    incubationButton.addEventListener('click', function() {
+      isIncubationOpen = !isIncubationOpen;
+      incubationWarning.classList.toggle('outdated-collapsed');
+      incubationButton.innerText = isIncubationOpen ? '▾ collapse' : '▴ expand';
+      incubationButton.setAttribute('aria-label', isIncubationOpen ? 'Collapse warning' : 'Expand warning');
+    }, false);
+
+    document.body.prepend(incubationWarning);
+    incubationButton.focus();
+
+    window.addEventListener('keydown', function(event) {
+      if (event.keyCode === ESCAPEKEY && isIncubationOpen) {
+        incubationButton.click();
+      }
+    }, false);
+
+    window.addEventListener('click', function(event) {
+      if (!incubationWarning.contains(event.target) && isIncubationOpen) {
+        incubationButton.click();
+      }
+    }, false);
+
+    document.addEventListener('focus', function(event) {
+      if (isIncubationOpen && !incubationWarning.contains(event.target)) {
+        event.stopPropagation();
+        document.body.appendChild(incubationWarning);
+      }
+    }, true);
   }
 })();
