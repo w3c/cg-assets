@@ -7,7 +7,7 @@ which holds the assets for W3C Technical Reports. The design implemented here wa
 developed and agreed in [w3c/cg-program](https://github.com/w3c/cg-program) — see
 [`proposals/spec-lifecycle.md`](https://github.com/w3c/cg-program/blob/main/proposals/spec-lifecycle.md)
 and [`beta-2026/cg-redesign-overview.md`](https://github.com/w3c/cg-program/blob/main/beta-2026/cg-redesign-overview.md)
-— and prototyped as the `spec-mockups/v12` mockups.
+— and prototyped as the `spec-mockups/v13` mockups.
 
 ## Files
 
