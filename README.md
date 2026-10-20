@@ -16,7 +16,7 @@ and [`beta-2026/cg-redesign-overview.md`](https://github.com/w3c/cg-program/blob
 | `css/base.css` | The W3C TR base style sheet, with the CG design bits. |
 | `css/cg-spec.css` | The CG component layer: the header box, status notices, progress bar, usage-guidance tables, buttons and icons. |
 | `css/dark.css` | The W3C TR dark overlay. |
-| `js/cg-fixup.js` | Table of contents (sidebar toggle, jump link), amendment diff toggling, wide-table wrapping. |
+| `js/cg-fixup.js` | Table of contents (sidebar toggle, jump link), amendment diff toggling, wide-table wrapping, the "W3C Community Group incubation" warning. |
 | `js/dark.js` | The light / dark / auto theme toggle, and the code that drives the dark style sheet. |
 | `js/cg-metadata.js` | Fills the status metadata — browser support, the progress bar, the usage-guidance tables — from [cg-spec-metadata](https://github.com/w3c/cg-spec-metadata). |
 | `demo/` | Sample specifications using these assets, wired to the live metadata endpoint and deployed through GitHub Pages. See [`demo/README.md`](demo/README.md). |

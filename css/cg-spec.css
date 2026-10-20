@@ -469,6 +469,17 @@ dl.grid {
   color: inherit;
 }
 
+/* Incubation warning, added by cg-fixup.js on top of base.css's
+   .outdated-warning: orange instead of maroon. */
+.cg-incubation-warning {
+  background: var(--warning-bg);
+  box-shadow: 0 0 1em;
+}
+.cg-incubation-warning,
+.cg-incubation-warning button {
+  color: var(--warning-text);
+}
+
 /* PRINT STYLES */
 @media print {
   html {
