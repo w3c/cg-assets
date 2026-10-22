@@ -296,17 +296,11 @@
      notice boxes, a snapshot is a snapshot whatever its maturity. */
   var PROGRAMS_URL = 'https://github.com/w3c/cg-program/blob/main/beta-2026/w3c-programs.md';
   var LIFECYCLE_URL = 'https://github.com/w3c/cg-program/blob/main/proposals/spec-lifecycle.md#maturity-stages';
-  var TRANSFERRED_PHRASE = 'has taken up the work for standardization';
-  // What both generators write when the organization is not configured
-  var UNKNOWN_ORGANIZATION = 'Another organization';
+  var STATUS_BLOCK_FRAGMENT = '#top-status-block';
 
   function metaContent(name) {
     var meta = document.querySelector('meta[name="' + name + '"]');
     return meta ? meta.content.trim() : '';
-  }
-
-  function collapseSpaces(text) {
-    return text.replace(/\s+/g, ' ').trim();
   }
 
   /* A link, or plain text when there is no URL for it. */
@@ -325,26 +319,6 @@
     if (!canonical) return null;
     var here = document.location.href.split('#')[0];
     return canonical.href === here ? null : canonical.href;
-  }
-
-  /* The organization a specification was transferred to, read from the
-     notice the generator wrote: "<name, or a link> has taken up the work for
-     standardization…". */
-  function transferredOrganization() {
-    var items = document.querySelectorAll('.box li');
-    for (var i = 0; i < items.length; i++) {
-      var text = collapseSpaces(items[i].textContent);
-      var at = text.indexOf(TRANSFERRED_PHRASE);
-      if (at === -1) continue;
-
-      var name = text.slice(0, at).trim();
-      var anchor = items[i].querySelector('a[href]');
-      if (anchor && collapseSpaces(anchor.textContent) === name) {
-        return warningLink(anchor.href, name);
-      }
-      return name || UNKNOWN_ORGANIZATION;
-    }
-    return UNKNOWN_ORGANIZATION;
   }
 
   /* The warning's lines, each a list of strings and nodes. */
@@ -368,8 +342,8 @@
       case 'transferred':
         return [
           ['This specification has been ', warningLink(LIFECYCLE_URL, 'transferred'), '!'],
-          [transferredOrganization(), ' has taken up the work for standardization. ' +
-           'Please contact them for the latest information.']
+          ['See new contact information at the ',
+           warningLink(STATUS_BLOCK_FRAGMENT, 'top of this document'), '.']
         ];
       default:
         return [

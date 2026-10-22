@@ -465,8 +465,10 @@ dl.grid {
   margin: 0 0 1rem;
   padding: 0.6em 1em;
 }
-#beta-feedback-notice a {
+#beta-feedback-notice a,
+.cg-incubation-warning a {
   color: inherit;
+  text-decoration-thickness: 1px;
 }
 
 /* Incubation warning, added by cg-fixup.js on top of base.css's
