@@ -66,6 +66,19 @@ Two document kinds and three maturity stages, per the
   which uses the red `.box--warning` variant.
 
 
+## Incubation warning
+
+`js/cg-fixup.js` adds a warning bar to the bottom of every CG specification. It fetches nothing: it reads what the generator already wrote, and its
+wording follows the same rule as the notice box, with a snapshot taking precedence over its
+maturity.
+
+| The document is | The warning says | Elements reused |
+| --- | --- | --- |
+| a snapshot | This is a snapshot of an incubation and may be outdated! Please see the living specification for the latest updates on this incubation | `<link rel="canonical">` |
+| unmaintained | This specification is no longer in development and is unmaintained. Do not use or reference. If these circumstances change in the future, we will review our guidance. | `cg-spec-maturity` |
+| transferred | This specification has been transferred. "Organization" has taken up the work for standardization. Please contact them for the latest information. | the notice box item "… has taken up the work for standardization", where the organization is plain text or a link |
+| anything else | This is a W3C Community Group incubation | |
+
 ## Status metadata
 
 `js/cg-metadata.js` fills the collected status metadata from
@@ -82,7 +95,8 @@ snapshot both load it, and it behaves differently according to what the document
 ```
 
 These come from native config properties in bikeshed and ReSpec; nothing here is meant to be
-hand-written. `cg-spec-maturity` is a **build input** — the script never reads it. The maturity
+hand-written. `cg-spec-maturity` is a **build input** — `cg-metadata.js` never reads it
+(only `cg-fixup.js` does, to word the [incubation warning](#incubation-warning)). The maturity
 stage changes the markup rather than a value (a different notice box, a different number of list
 items, no progress bar at all), so it has to be chosen when the document is generated.
 
