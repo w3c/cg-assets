@@ -76,7 +76,7 @@ maturity.
 | --- | --- | --- |
 | a snapshot | This is a snapshot of an incubation and may be outdated! Please see the living specification for the latest updates on this incubation | `<link rel="canonical">` |
 | unmaintained | This specification is no longer in development and is unmaintained. Do not use or reference. If these circumstances change in the future, we will review our guidance. | `cg-spec-maturity` |
-| transferred | This specification has been transferred. "Organization" has taken up the work for standardization. Please contact them for the latest information. | the notice box item "… has taken up the work for standardization", where the organization is plain text or a link |
+| transferred | This specification has been transferred! See new contact information at the top of this document. | `cg-spec-maturity`, `id="top-status-block"` |
 | anything else | This is a W3C Community Group incubation | |
 
 ## Status metadata
