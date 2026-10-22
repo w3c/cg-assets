@@ -479,6 +479,12 @@ dl.grid {
 .cg-incubation-warning button {
   color: var(--warning-text);
 }
+/* Keep the text clear of the hide button on the right and of the fixed
+   #toc-nav on the left, which matters once the text wraps. */
+.cg-incubation-warning.outdated-collapsed {
+  box-sizing: border-box;
+  padding: 0 3.5em;
+}
 
 /* PRINT STYLES */
 @media print {

@@ -290,7 +290,94 @@
     }
   }
 
-  /* Incubation warning shown collapsed at the bottom of the page. */
+  /* Incubation warning shown collapsed at the bottom of the page.
+     Its wording depends on what the document says it is, in the
+     cg-spec-type and cg-spec-maturity <meta> elements. As in the generators'
+     notice boxes, a snapshot is a snapshot whatever its maturity. */
+  var PROGRAMS_URL = 'https://github.com/w3c/cg-program/blob/main/beta-2026/w3c-programs.md';
+  var LIFECYCLE_URL = 'https://github.com/w3c/cg-program/blob/main/proposals/spec-lifecycle.md#maturity-stages';
+  var TRANSFERRED_PHRASE = 'has taken up the work for standardization';
+  // What both generators write when the organization is not configured
+  var UNKNOWN_ORGANIZATION = 'Another organization';
+
+  function metaContent(name) {
+    var meta = document.querySelector('meta[name="' + name + '"]');
+    return meta ? meta.content.trim() : '';
+  }
+
+  function collapseSpaces(text) {
+    return text.replace(/\s+/g, ' ').trim();
+  }
+
+  /* A link, or plain text when there is no URL for it. */
+  function warningLink(href, text) {
+    if (!href) return text;
+    var anchor = document.createElement('a');
+    anchor.href = href;
+    anchor.textContent = text;
+    return anchor;
+  }
+
+  /* The living specification a snapshot points at: its canonical URL, unless
+     that is the snapshot itself. */
+  function livingSpecUrl() {
+    var canonical = document.querySelector('link[rel~="canonical"][href]');
+    if (!canonical) return null;
+    var here = document.location.href.split('#')[0];
+    return canonical.href === here ? null : canonical.href;
+  }
+
+  /* The organization a specification was transferred to, read from the
+     notice the generator wrote: "<name, or a link> has taken up the work for
+     standardization…". */
+  function transferredOrganization() {
+    var items = document.querySelectorAll('.box li');
+    for (var i = 0; i < items.length; i++) {
+      var text = collapseSpaces(items[i].textContent);
+      var at = text.indexOf(TRANSFERRED_PHRASE);
+      if (at === -1) continue;
+
+      var name = text.slice(0, at).trim();
+      var anchor = items[i].querySelector('a[href]');
+      if (anchor && collapseSpaces(anchor.textContent) === name) {
+        return warningLink(anchor.href, name);
+      }
+      return name || UNKNOWN_ORGANIZATION;
+    }
+    return UNKNOWN_ORGANIZATION;
+  }
+
+  /* The warning's lines, each a list of strings and nodes. */
+  function incubationLines() {
+    if (metaContent('cg-spec-type') === 'snapshot') {
+      return [
+        ['This is a ', warningLink(PROGRAMS_URL + '#living-specification-v-snapshot', 'snapshot'),
+         ' of an incubation and may be outdated!'],
+        ['Please see the ', warningLink(livingSpecUrl(), 'living specification'),
+         ' for the latest updates on this incubation.']
+      ];
+    }
+    switch (metaContent('cg-spec-maturity')) {
+      case 'unmaintained':
+        return [
+          ['This specification is no longer in development and is ',
+           warningLink(LIFECYCLE_URL, 'unmaintained'), '!'],
+          ['Do not use or reference. If these circumstances change in the ' +
+           'future, we will review our guidance.']
+        ];
+      case 'transferred':
+        return [
+          ['This specification has been ', warningLink(LIFECYCLE_URL, 'transferred'), '!'],
+          [transferredOrganization(), ' has taken up the work for standardization. ' +
+           'Please contact them for the latest information.']
+        ];
+      default:
+        return [
+          ['This is a ', warningLink(PROGRAMS_URL + '#introduction', 'W3C Community Group incubation'), '.']
+        ];
+    }
+  }
+
   if (!document.getElementById('cg-incubation-warning')) {
     var incubationWarning = document.createElement('p');
     incubationWarning.id = 'cg-incubation-warning';
@@ -298,11 +385,11 @@
     incubationWarning.className = 'outdated-warning outdated-collapsed cg-incubation-warning';
     if (document.respec) incubationWarning.classList.add('removeOnSave');
 
-    var incubationText = document.createElement('span');
-    incubationText.innerHTML = 'This is a <a href="https://github.com/w3c/' +
-      'cg-program/blob/main/beta-2026/w3c-programs.md#introduction">W3C ' +
-      'Community Group incubation</a>.';
-    incubationWarning.appendChild(incubationText);
+    incubationLines().forEach(function(parts) {
+      var incubationText = document.createElement('span');
+      incubationText.append.apply(incubationText, parts);
+      incubationWarning.appendChild(incubationText);
+    });
 
     var incubationButton = document.createElement('button');
     incubationButton.type = 'button';
