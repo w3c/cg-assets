@@ -231,7 +231,7 @@ body.toc-sidebar {
 
 /* red - warning notice */
 .box--warning {
-  background-color: var(--box-bg--warning);
+  background-color: var(--warning-bg);
 }
 
 /* Neutral information notice */
