@@ -314,6 +314,59 @@ body.toc-sidebar {
   }
 }
 
+/* Stack large tables on small screens */
+@media screen and (max-width: 35.99em) {
+  .table--stacked,
+  .table--stacked :is(caption, tbody, tr, th, td) {
+    display: block;
+  }
+  .table--stacked col,
+  .table--stacked th[scope="col"] {
+    display: none;
+  }
+  .table--stacked td[data-label]::before {
+    content: attr(data-label) ": ";
+    font-weight: bold;
+  }
+  .box .table--stacked,
+  .box .table--stacked :is(th, td) {
+    border: 0;
+  }
+  .box .table--stacked :is(th, td) {
+    padding: 0.35em 0.75em;
+  }
+  .box .table--stacked tr {
+    padding: 0;
+    border: 2px solid var(--box-table-border);
+  }
+  .box .table--stacked tr + tr {
+    border-block-start: 0;
+  }
+  .box .table--stacked td + td {
+    border-block-start: 1px solid var(--box-table-border);
+  }
+  .box .table--stacked :is(th[scope="row"], th[scope="rowgroup"]) {
+    padding-block: 0.5em;
+  }
+  .box .table--stacked .row--group-head {
+    border-block-end: 0;
+  }
+  .box .table--stacked {
+    background-color: transparent;
+  }
+  .box .table--stacked tr {
+    background-color: var(--box-table-bg);
+  }
+  .box--head .table--stacked {
+    tr {
+      background-color: var(--box-table-bg--head);
+    }
+    :is(tr, td + td) {
+      border-color: var(--box-table-border--head);
+    }
+  }
+}
+
 /* Icons */
 .icon {
   width: 1em;

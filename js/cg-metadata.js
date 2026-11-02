@@ -164,8 +164,16 @@
     return href ? el("a", { href: href }, children) : el("span", {}, children);
   }
 
-  function table(caption, widths, rows) {
-    const t = el("table", {}, el("caption", { id: caption.id }, caption.text));
+  /* Set on the tables with a row header and three or more data columns: no
+     narrow screen fits those, so cg-spec.css stacks them. */
+  const STACKED = "table--stacked";
+
+  /* Set on a header row whose values sit in the row below it, so that stacked
+     the two read as one block rather than two. */
+  const GROUP_HEAD = "row--group-head";
+
+  function table(caption, widths, rows, stacked) {
+    const t = el("table", { class: stacked ? STACKED : null }, el("caption", { id: caption.id }, caption.text));
     for (const width of widths) t.append(el("col", { width: width }));
     for (const row of rows) t.append(row);
     return el(
@@ -244,15 +252,19 @@
     return list;
   }
 
-  /** One browser column: "Shipped", or a position linked to its issue. */
-  function supportCell(data, key) {
-    const cell = (data.support || {})[key] || {};
-    if (!cell.label) return el("td", {}, missing());
-    return el("td", {}, link(cell.url, cell.label));
+  function supportCell(data, browser) {
+    const cell = (data.support || {})[browser.key] || {};
+    const attrs = { "data-label": browser.name };
+    if (!cell.label) return el("td", attrs, missing());
+    return el("td", attrs, link(cell.url, cell.label));
   }
 
   function supportHeaderRow(id) {
-    const row = el("tr", {}, el("th", { id: id || null, rowSpan: 2, scope: "rowgroup" }, "Browser support"));
+    const row = el(
+      "tr",
+      { class: GROUP_HEAD },
+      el("th", { id: id || null, rowSpan: 2, scope: "rowgroup" }, "Browser support")
+    );
     for (const browser of BROWSERS) {
       row.append(el("th", { scope: "col" }, icon(browser.key, "icon--before"), browser.name));
     }
@@ -261,7 +273,7 @@
 
   function supportValueRow(data) {
     const row = el("tr");
-    for (const browser of BROWSERS) row.append(supportCell(data, browser.key));
+    for (const browser of BROWSERS) row.append(supportCell(data, browser));
     return row;
   }
 
@@ -269,7 +281,7 @@
   function buildBrowserSupport(data) {
     if (!data.support) return unavailable("Browser support data is not available for this specification.");
 
-    const t = el("table", {});
+    const t = el("table", { class: STACKED });
     for (const width of ["40%", "15%", "15%", "15%", "15%"]) t.append(el("col", { width: width }));
     t.append(supportHeaderRow("browser-support"), supportValueRow(data));
     return [
@@ -345,13 +357,14 @@
           supportHeaderRow(),
           supportValueRow(data),
           labelledRow("Test suite", el("td", { colSpan: 4 }, testSuite)),
-        ]
+        ],
+        true
       )
     );
 
     const adopterHeader = el(
       "tr",
-      {},
+      { class: GROUP_HEAD },
       el("th", { rowSpan: 2, scope: "rowgroup" }, "Known adopter interest"),
       el("th", { scope: "col" }, "GitHub"),
       el("th", { scope: "col" }, "WebDX signals"),
@@ -360,13 +373,13 @@
     const adopterValues = el(
       "tr",
       {},
-      el("td", {}, Number.isInteger(github.stars)
+      el("td", { "data-label": "GitHub" }, Number.isInteger(github.stars)
         ? link(github.starsUrl, icon("star", "icon--before"), String(github.stars))
         : missing()),
-      el("td", {}, Number.isInteger(signals.votes)
+      el("td", { "data-label": "WebDX signals" }, Number.isInteger(signals.votes)
         ? link(signals.url, icon("signal", "icon--before"), String(signals.votes))
         : missing()),
-      el("td", {}, chromeStatus.label
+      el("td", { "data-label": "Chrome Status" }, chromeStatus.label
         ? link(chromeStatus.url, icon("signal", "icon--before"), chromeStatus.label)
         : missing())
     );
@@ -395,7 +408,8 @@
           adopterHeader,
           adopterValues,
           labelledRow("Patent licensing commitments", el("td", { colSpan: 3 }, commitments)),
-        ]
+        ],
+        true
       )
     );
 
@@ -424,6 +438,24 @@
   function unavailable(message) {
     return el("p", { class: "cg-metadata-unavailable" }, message);
   }
+
+  const STACKS = window.matchMedia("(max-width: 35.99em)");
+
+  function syncScrollRegions() {
+    for (const t of document.querySelectorAll(".table--stacked")) {
+      const wrap = t.closest(".table-wrap");
+      if (!wrap) continue;
+      if (STACKS.matches) {
+        wrap.removeAttribute("role");
+        wrap.removeAttribute("tabindex");
+      } else {
+        wrap.setAttribute("role", "region");
+        wrap.setAttribute("tabindex", "0");
+      }
+    }
+  }
+
+  STACKS.addEventListener("change", syncScrollRegions);
 
   /** Replaces a region's content, leaving any <noscript> in place. */
   function fill(container, content) {
@@ -535,6 +567,7 @@
         }
         fill(container, build(data, specType));
       }
+      syncScrollRegions();
       document.documentElement.dataset.cgMetadata = "fresh";
       restoreFragment();
     })
