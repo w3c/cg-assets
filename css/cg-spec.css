@@ -468,7 +468,7 @@ dl.grid {
 #beta-feedback-notice a,
 .cg-incubation-warning a {
   color: inherit;
-  text-decoration-thickness: 1px;
+  text-decoration-thickness: 2px;
 }
 
 /* Incubation warning, added by cg-fixup.js on top of base.css's
