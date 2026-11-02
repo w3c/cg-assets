@@ -272,23 +272,19 @@
     const t = el("table", {});
     for (const width of ["40%", "15%", "15%", "15%", "15%"]) t.append(el("col", { width: width }));
     t.append(supportHeaderRow("browser-support"), supportValueRow(data));
-    t.append(
+    return [
       el(
-        "tr",
-        {},
-        el(
-          "td",
-          { colSpan: 5 },
-          el("a", { class: "link--button float--r", href: "#usage-guidance" },
-            "More usage guidance ", icon("chevronDown"))
-        )
-      )
-    );
-    return el(
-      "div",
-      { class: "table-wrap", role: "region", tabindex: "0", "aria-labelledby": "browser-support" },
-      t
-    );
+        "div",
+        { class: "table-wrap", role: "region", tabindex: "0", "aria-labelledby": "browser-support" },
+        t
+      ),
+      el(
+        "p",
+        { class: "guidance-link" },
+        el("a", { class: "link--button link--button--compact", href: "#usage-guidance" },
+          "More usage guidance ", icon("chevronDown"))
+      ),
+    ];
   }
 
   function experimentation(data) {
