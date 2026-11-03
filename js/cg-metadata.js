@@ -277,26 +277,30 @@
     return row;
   }
 
+  function guidanceRow() {
+    return el(
+      "tr",
+      { class: "row--guidance" },
+      el(
+        "td",
+        { colSpan: BROWSERS.length + 1 },
+        el("a", { href: "#usage-guidance" }, "More usage guidance ", icon("chevronDown"))
+      )
+    );
+  }
+
   /** The summary in the header box, with a link down to the detail. */
   function buildBrowserSupport(data) {
     if (!data.support) return unavailable("Browser support data is not available for this specification.");
 
     const t = el("table", { class: STACKED });
     for (const width of ["40%", "15%", "15%", "15%", "15%"]) t.append(el("col", { width: width }));
-    t.append(supportHeaderRow("browser-support"), supportValueRow(data));
-    return [
-      el(
-        "div",
-        { class: "table-wrap", role: "region", tabindex: "0", "aria-labelledby": "browser-support" },
-        t
-      ),
-      el(
-        "p",
-        { class: "guidance-link" },
-        el("a", { class: "link--button link--button--compact", href: "#usage-guidance" },
-          "More usage guidance ", icon("chevronDown"))
-      ),
-    ];
+    t.append(supportHeaderRow("browser-support"), supportValueRow(data), guidanceRow());
+    return el(
+      "div",
+      { class: "table-wrap", role: "region", tabindex: "0", "aria-labelledby": "browser-support" },
+      t
+    );
   }
 
   function experimentation(data) {

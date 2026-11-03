@@ -84,11 +84,6 @@ a[href] {
   padding:4px 8px; 
 }
 
-.link--button--compact {
-  font-size: 85%;
-  padding: 5px 10px;
-}
-
 
 /* Table of contents: CG colours for sidebar version */
 body.toc-sidebar {
@@ -241,9 +236,8 @@ body.toc-sidebar {
   }
 }
 
-.guidance-link {
-  margin: 0;
-  text-align: right;
+.row--guidance td {
+  text-align: center;
 }
 
 .box--head table {
