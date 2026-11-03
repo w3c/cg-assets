@@ -569,6 +569,11 @@ dl.grid {
 .cg-incubation-warning button {
   color: var(--warning-text);
 }
+/* Add padding so systems showing scrollbars only while scrolling will not
+   obscure the button */
+.cg-incubation-warning button {
+  padding-inline-end: 1.25em;
+}
 /* Keep the text clear of the hide button on the right and of the fixed
    #toc-nav on the left, which matters once the text wraps. */
 .cg-incubation-warning.outdated-collapsed {
